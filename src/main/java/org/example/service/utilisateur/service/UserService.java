@@ -5,12 +5,14 @@ import org.example.service.utilisateur.repository.UserRepository;
 import org.example.service.utilisateur.utils.UserUtils;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserService implements UserRepository {
 
-    private static final File file = new File(new UserUtils().MY_FILE);
+    private final File file = new File(new UserUtils().MY_FILE);
 
-    private static void addUser(User user) throws IOException {
+    private  void addUser(User user) throws IOException {
         if (!file.exists())
             throw new FileNotFoundException(new UserUtils().FILE_NOT_FOUND());
 
@@ -18,7 +20,7 @@ public class UserService implements UserRepository {
                 new BufferedOutputStream( new FileOutputStream(file))
         )){
 
-            ob.writeObject(user.createUser(
+            ob.writeObject(new User(
                     user.getId(),
                     user.getName(),
                     user.getSurname(),
@@ -29,7 +31,7 @@ public class UserService implements UserRepository {
             ));
 
 
-            System.out.println(" use " + user.getName()+ "is save correctly !");
+            System.out.println(" use " + user.getName()+ " is save correctly !");
         }
     }
 
@@ -65,9 +67,39 @@ public class UserService implements UserRepository {
             }
              return false;
 
+        } catch (IOException e){
+            reinitializeFile();
+            return false;
+        }
+        catch (ClassNotFoundException e) {
+            throw new IOException("format de fichier invalide", e);
+        }
+    }
+
+    private  List<User> getAllUser() throws IOException{
+        if (!file.exists())
+            throw new FileNotFoundException(new UserUtils().FILE_NOT_FOUND());
+
+        try (var ob = new ObjectInputStream(
+                new BufferedInputStream( new FileInputStream( new UserUtils().MY_FILE))
+        )){
+
+            Object userObject = ob.readObject();
+
+            if (userObject instanceof List<?>)
+            {
+                @SuppressWarnings("unchecked")
+                List<User> users = (List<User>) userObject;
+
+                return users;
+            }
+
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
+
+
+        return new ArrayList<>();
     }
 
     @Override
@@ -76,19 +108,21 @@ public class UserService implements UserRepository {
         if (!file.exists())
             throw new FileNotFoundException(new UserUtils().FILE_NOT_FOUND());
 
-        try (var ob = new ObjectInputStream(
-                new BufferedInputStream( new FileInputStream(file))
-        )){
+        List<User> users = getAllUser();
 
-            Object userObject = ob.readObject();
+        return users.stream().reduce(user, (u,v)->{
+            assert u != null;
+            if (!(u.getName().equals(user.getName()) && u.getAge()== user.getAge()))
+                return null;
+            return u;
+        });
+    }
 
-            if (userObject instanceof User newUserObject)
-                return newUserObject;
 
-            return null;
-
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
+    public void reinitializeFile() throws IOException {
+        // Crée un nouveau fichier avec une structure valide
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new UserUtils().MY_FILE))) {
+            oos.writeObject(new ArrayList<User>()); // Écrit une liste vide
         }
     }
 }

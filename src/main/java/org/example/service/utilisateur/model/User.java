@@ -70,9 +70,4 @@ public class User implements Serializable {
         return null;
     }
 
-    public String toString() {
-        return  " name :" +this.name +
-                "\n surname :"+this.surname+ "\n age :"+ this.age + "\n phone  number :"
-                +this.phone+ "\n email :" +this.email + "\n gender  :" +this.gender;
-    }
 }

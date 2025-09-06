@@ -1,6 +1,8 @@
 package org.example.service.utilisateur.utils;
 
-public class UserUtils {
+import java.io.Serializable;
+
+public class UserUtils implements Serializable {
 
     public String FILE_NOT_FOUND() {
         return "file not found !";
