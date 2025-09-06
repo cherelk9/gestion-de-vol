@@ -1,17 +1,44 @@
 package org.example;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-public class Main {
-    public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+import org.example.service.utilisateur.controller.UserController;
+import org.example.service.utilisateur.model.Gender;
+import org.example.service.utilisateur.model.User;
+import org.example.service.utilisateur.utils.UserUtils;
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
-        }
+import java.io.File;
+import java.io.IOException;
+
+public class Main {
+
+
+
+    public static void main(String[] args) throws IOException {
+
+        UserController controller = new UserController();
+
+        User user1 = new User(
+                "1",
+                "elembe",
+                "lionel",
+                26,
+                "lionel.cherel@gmail.com",
+                "652928749",
+                Gender.MALE
+        );
+
+
+            try {
+                if (new File(new UserUtils().MY_FILE).exists()){
+                    controller.sign(user1);
+                    controller.printProfil(user1);
+                }
+
+
+
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
     }
 }

@@ -1,0 +1,13 @@
+## 1. **Système de réservation de vols**
+
+📌 **Description**
+Un système où les utilisateurs peuvent rechercher et réserver des vols. Gestion des compagnies, des vols, des passagers et des réservations.
+
+📂 **Structure microservices**
+
+* **Service Utilisateur** : inscription, login, profil.
+* **Service Vols** : gestion des vols et compagnies.
+* **Service Réservation** : création/annulation de réservations.
+* **Service Paiement** : simulation de paiements.
+* **Service Notification** : envoi de confirmations (email simulé).
+
