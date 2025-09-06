@@ -13,19 +13,30 @@ public class Vol implements Serializable {
 
     private final File file = new File(new VolUtils().V_FILE);
 
-    private final String id;
-    private final int volNumber ;
-    private final String destination;
-    private final LocalDateTime heureDepart;
-    private final Date dateVol;
-    private final TypeOfVol typeOfVol;
-    private final int nombreDePlaces;
+    private  String id;
+    private  int volNumber ;
+    private  String destination;
+    private  LocalDateTime heureDepart;
+    private  Date dateVol;
+    private  TypeOfVol typeOfVol;
+    private  int nombreDePlaces;
 
-    private final String compagnyId ;
+    private  String compagnyId ;
 
     private final Compagnie compagny = new Compagnie();
 
-    public Vol () {}
+    public Vol() {}
+
+    public Vol (String id, int volNumber, String destination, LocalDateTime heureDepart, Date dateVol, TypeOfVol typeOfVol, int nombreDePlaces, String compagnyId) {
+        this.id = id;
+        this.volNumber = volNumber;
+        this.destination = destination;
+        this.heureDepart = heureDepart;
+        this.dateVol = dateVol;
+        this.typeOfVol = typeOfVol;
+        this.nombreDePlaces = nombreDePlaces;
+        this.compagnyId = compagnyId;
+    }
 
     public Vol(String id, int volNumber, String destination, LocalDateTime heureDepart,
                Date dVole ,int nombreDePlaces, TypeOfVol typeOfVol, String compagnyId
@@ -60,8 +71,6 @@ public class Vol implements Serializable {
         try (var ob = new ObjectOutputStream(
                 new BufferedOutputStream( new FileOutputStream( file ))
         )) {
-
-
 
             ob.writeObject(
                     new Vol(
