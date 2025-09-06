@@ -27,7 +27,16 @@ public class Vol implements Serializable {
 
     public Vol() {}
 
-    public Vol (String id, int volNumber, String destination, LocalDateTime heureDepart, Date dateVol, TypeOfVol typeOfVol, int nombreDePlaces, String compagnyId) {
+    public Vol (
+            String id,
+            int volNumber,
+            String destination,
+            LocalDateTime heureDepart,
+            Date dateVol,
+            TypeOfVol typeOfVol,
+            int nombreDePlaces,
+            String compagnyId) {
+
         this.id = id;
         this.volNumber = volNumber;
         this.destination = destination;
@@ -38,18 +47,6 @@ public class Vol implements Serializable {
         this.compagnyId = compagnyId;
     }
 
-    public Vol(String id, int volNumber, String destination, LocalDateTime heureDepart,
-               Date dVole ,int nombreDePlaces, TypeOfVol typeOfVol, String compagnyId
-    ) {
-        this.id = id;
-        this.volNumber = volNumber;
-        this.destination = destination;
-        this.heureDepart = heureDepart;
-        this.dateVol = dVole;
-        this.nombreDePlaces = nombreDePlaces;
-        this.typeOfVol = typeOfVol;
-        this.compagnyId = compagnyId;
-    }
 
     public String getId() {return id;}
     public int getNombreDePlaces() {return nombreDePlaces;}
@@ -72,6 +69,17 @@ public class Vol implements Serializable {
                 new BufferedOutputStream( new FileOutputStream( file ))
         )) {
 
+/*
+            String id,
+            int volNumber,
+            String destination,
+            LocalDateTime heureDepart,
+            Date dateVol,
+            TypeOfVol typeOfVol,
+            int nombreDePlaces,
+            String compagnyId
+* */
+
             ob.writeObject(
                     new Vol(
                             volDto.getId(),
@@ -79,8 +87,8 @@ public class Vol implements Serializable {
                             volDto.getDestination(),
                             volDto.getHeureDepart(),
                             volDto.getDateVol(),
-                            volDto.getNombreDePlaces(),
                             volDto.getTypeOfVol(),
+                            volDto.getNombreDePlaces(),
                             volDto.getCompagnyId()
 
                     )
@@ -88,5 +96,18 @@ public class Vol implements Serializable {
 
             System.out.println("new vol add successful !");
         }
+    }
+
+    public VolDto createVol(Vol vol) {
+        return new VolDto(
+                vol.getId(),
+                vol.getVolNumber(),
+                vol.getDestination(),
+                vol.getHeureDepart(),
+                vol.getDateVol(),
+                vol.getTypeOfVol(),
+                vol.getNombreDePlaces(),
+                compagny.getId()
+        );
     }
 }

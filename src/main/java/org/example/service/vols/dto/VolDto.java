@@ -2,6 +2,7 @@ package org.example.service.vols.dto;
 
 import org.example.service.vols.model.Compagnie;
 import org.example.service.vols.model.TypeOfVol;
+import org.example.service.vols.model.Vol;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -19,8 +20,8 @@ public class VolDto implements Serializable {
     private  String compagnyId;
 
     public VolDto(String id, int volNumber, String destination, LocalDateTime heureDepart,
-                  Date dateVol, TypeOfVol typeOfVol, int nombreDePlaces
-    ) {
+                  Date dateVol, TypeOfVol typeOfVol, int nombreDePlaces,
+                  String compagnyId) {
         this.id = id;
         this.volNumber = volNumber;
         this.destination = destination;
@@ -48,4 +49,18 @@ public class VolDto implements Serializable {
     public void setTypeOfVol(TypeOfVol typeOfVol) {this.typeOfVol = typeOfVol;}
     public void setNombreDePlaces(int nombreDePlaces) {this.nombreDePlaces = nombreDePlaces;}
     public void setCompagnyId(String compagnyId) {this.compagnyId = compagnyId;}
+
+    public Vol createVol(VolDto vol) {
+        return new Vol(
+                vol.getId(),
+                vol.getVolNumber(),
+                vol.getDestination(),
+                vol.getHeureDepart(),
+                vol.getDateVol(),
+                vol.getTypeOfVol(),
+                vol.getNombreDePlaces(),
+                vol.getCompagnyId()
+        );
+    }
+
 }

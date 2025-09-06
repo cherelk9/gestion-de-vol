@@ -1,16 +1,16 @@
 package org.example.service.vols.controller;
 
+import org.example.service.utilisateur.dto.UserDto;
 import org.example.service.utilisateur.model.User;
 import org.example.service.vols.dto.VolDto;
 import org.example.service.vols.model.Compagnie;
 import org.example.service.vols.model.UserByVol;
-import org.example.service.vols.model.Vol;
 import org.example.service.vols.service.CompagnyService;
 import org.example.service.vols.utils.CompagnyUtils;
 
 import java.io.*;
 import java.util.function.BiFunction;
-import java.util.function.Function;
+
 
 public class CompagnyController {
 
@@ -56,8 +56,8 @@ public class CompagnyController {
                                     p.getHeureDepart(),
                                     p.getDateVol(),
                                     p.getTypeOfVol(),
-                                    p.getNombreDePlaces()
-                            ),
+                                    p.getNombreDePlaces(),
+                                    p.getCompagnyId()),
                             new User(
                                     y.getId(),
                                     y.getName(),
@@ -75,11 +75,25 @@ public class CompagnyController {
             };
 
             ob.writeObject(newUserByVol);
+            System.out.println(" le vol numero : " +vol.getVolNumber()+ " a ete programme avec success !");
         }
 
-
-
     }
+
+    public void getUserByVol(VolDto vol, String userId) throws IOException {
+        if (!file.exists())
+            throw new FileNotFoundException(new CompagnyUtils().FILE_COMPAGNY_NOT_FOUND);
+
+        if (new UserDto().getId().equals(userId)) {
+            getUserByVol(vol, userId);
+        }
+    }
+
+    public void creerVol(VolDto vol) throws IOException {
+        compagnyService.createVol(vol);
+    }
+
+
 
 
 }

@@ -26,7 +26,19 @@ public class User implements Serializable {
     private final String volId; // foreign key of vol
     private final String compagnyId;
 
-    public User(String id, String name, String surname, int age, String email, String phone, Gender gender, String volId, String compagnyId) {
+
+
+    public User(
+            String id,
+            String name,
+            String surname,
+            int age,
+            String email,
+            String phone,
+            Gender gender,
+            String volId,
+            String compagnyId) {
+
         this.id = id;
         this.name = name;
         this.surname = surname;
