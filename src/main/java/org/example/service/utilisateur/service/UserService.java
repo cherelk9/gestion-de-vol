@@ -27,7 +27,9 @@ public class UserService implements UserRepository {
                     user.getAge(),
                     user.getEmail(),
                     user.getPhone(),
-                    user.getGender()
+                    user.getGender(),
+                    user.getVolId(),
+                    user.getCompagnyId()
             ));
 
 

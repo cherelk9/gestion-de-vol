@@ -11,3 +11,28 @@ Un système où les utilisateurs peuvent rechercher et réserver des vols. Gesti
 * **Service Paiement** : simulation de paiements.
 * **Service Notification** : envoi de confirmations (email simulé).
 
+
+
+relation user 1.1 --(appartenir)-- 1.n vol
+
+
+
+user (
+    ...
+    vol_id : string,
+    compagny_id : string
+    foreign key vol_id, compagny_id  refences vol(id), compagny(id)
+);
+
+
+relation vol 1.1 --(appartient)--  1.n compagny
+
+vol (
+    ...
+    compagny_id : string ,
+    foreign key compagny_id refence compagny(id)
+)
+
+relation user 1.1 --(is of)-- 1.n compagny
+
+

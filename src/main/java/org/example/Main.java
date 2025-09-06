@@ -5,6 +5,7 @@ import org.example.service.utilisateur.exception.InvalidInsertion;
 import org.example.service.utilisateur.model.Gender;
 import org.example.service.utilisateur.model.User;
 import org.example.service.utilisateur.utils.UserUtils;
+import org.example.service.vols.model.Vol;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,7 +25,9 @@ public class Main {
                 26,
                 "lionel.cherel@gmail.com",
                 "652928749",
-                Gender.MALE
+                Gender.MALE,
+                "3",
+                "5"
         );
 
         User user2 = new User(
@@ -34,7 +37,9 @@ public class Main {
                 60,
                 "marceline.merveille@gmail.com",
                 "677547403",
-                Gender.FEMALE
+                Gender.FEMALE,
+                "4",
+                "5"
         );
 
 
