@@ -62,8 +62,10 @@ public class Vol implements Serializable {
 
     public void addVol(VolDto volDto) throws IOException {
 
-        if (!file.exists())
-            throw new FileNotFoundException(new VolUtils().FILE_VOL_NOT_FOUND);
+        if (!file.exists()){
+            file.createNewFile();
+        }
+
 
         try (var ob = new ObjectOutputStream(
                 new BufferedOutputStream( new FileOutputStream( file ))

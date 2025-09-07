@@ -1,13 +1,19 @@
 package org.example.service.vols.service;
 
+import org.example.service.utilisateur.controller.UserController;
 import org.example.service.utilisateur.exception.UserNotFoundException;
+import org.example.service.utilisateur.model.Gender;
 import org.example.service.utilisateur.model.User;
+import org.example.service.utilisateur.utils.UserUtils;
 import org.example.service.vols.dto.VolDto;
+import org.example.service.vols.model.TypeOfVol;
 import org.example.service.vols.model.Vol;
 import org.example.service.vols.repositories.CompagnyRepository;
 import org.example.service.vols.utils.CompagnyUtils;
 
 import java.io.*;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 
@@ -38,9 +44,9 @@ public class CompagnyService implements CompagnyRepository {
 
     @Override
     public void createVol(VolDto vol) throws IOException {
-        if (!file.exists())
-            throw new FileNotFoundException(new CompagnyUtils().FILE_COMPAGNY_NOT_FOUND);
-
+        if (!file.exists()){
+            boolean newFile = file.createNewFile();
+        }
         new Vol().addVol(vol);
     }
 
@@ -52,8 +58,9 @@ public class CompagnyService implements CompagnyRepository {
             throw new FileNotFoundException(new CompagnyUtils().FILE_COMPAGNY_NOT_FOUND);
 
         User user = findUserByVol(vol, userId);
+
         if (user == null)
-            throw new UserNotFoundException("user not found exception !");
+            throw new FileNotFoundException(new CompagnyUtils().FILE_COMPAGNY_NOT_FOUND);
 
         System.out.println(
                 "name :"+user.getName()+"\nle numero de vol est :" +user.getVolId()
@@ -69,20 +76,22 @@ public class CompagnyService implements CompagnyRepository {
         try (var ob = new ObjectInputStream(
                 new BufferedInputStream( new FileInputStream(file))
         )) {
-            Object object = ob.readObject();
 
-            if (object instanceof List<?> newUser)
-            {
-                @SuppressWarnings("unchecked")
-                List<User> users = (List<User>) newUser;
-                users.stream()
-                        .filter(p->p.getVolId().contains(vol.getId()))
-                        .forEach(p->System.out.println(
-                                "name :" +p.getName()+
-                                        "\nnumero de vol :" +p.getVolId()
-                        ));
-            }
-        } catch (ClassNotFoundException e) {
+            if (ob.available() > 0) {
+                Object object = ob.readObject();
+
+
+                if (object instanceof List<?> newUser) {
+                    @SuppressWarnings("unchecked")
+                    List<User> users = (List<User>) newUser;
+                    users.stream()
+                            .filter(p -> p.getVolId().contains(vol.getId()))
+                            .forEach(p -> System.out.println(
+                                    "name :" + p.getName() +
+                                            "\nnumero de vol :" + p.getVolId()
+                            ));
+                }
+            }} catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
 
@@ -123,7 +132,7 @@ public class CompagnyService implements CompagnyRepository {
     }
 
     @Override
-    public void getAllUsers() throws IOException {
+    public  void getAllUsers() throws IOException {
 
         if (!file.exists())
             throw new FileNotFoundException(new CompagnyUtils().FILE_COMPAGNY_NOT_FOUND);
@@ -170,5 +179,6 @@ public class CompagnyService implements CompagnyRepository {
 
         return null;
     }
+
 
 }

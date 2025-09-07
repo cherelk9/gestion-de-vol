@@ -1,6 +1,7 @@
 package org.example.service.vols.controller;
 
 import org.example.service.utilisateur.dto.UserDto;
+import org.example.service.utilisateur.exception.UserNotFoundException;
 import org.example.service.utilisateur.model.User;
 import org.example.service.vols.dto.VolDto;
 import org.example.service.vols.model.Compagnie;
@@ -80,13 +81,8 @@ public class CompagnyController {
 
     }
 
-    public void getUserByVol(VolDto vol, String userId) throws IOException {
-        if (!file.exists())
-            throw new FileNotFoundException(new CompagnyUtils().FILE_COMPAGNY_NOT_FOUND);
-
-        if (new UserDto().getId().equals(userId)) {
-            getUserByVol(vol, userId);
-        }
+    public void getUserByVol(VolDto vol, String userId) throws IOException, UserNotFoundException {
+        if (file.exists() && vol.getId().equals(userId)) compagnyService.getUserByVol(userId, vol.createVol(vol));
     }
 
     public void creerVol(VolDto vol) throws IOException {

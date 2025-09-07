@@ -2,6 +2,7 @@ package org.example;
 
 import org.example.service.utilisateur.controller.UserController;
 import org.example.service.utilisateur.exception.InvalidInsertion;
+import org.example.service.utilisateur.exception.UserNotFoundException;
 import org.example.service.utilisateur.model.Gender;
 import org.example.service.utilisateur.model.User;
 import org.example.service.utilisateur.utils.UserUtils;
@@ -12,6 +13,8 @@ import org.example.service.vols.model.TypeOfVol;
 import org.example.service.vols.model.Vol;
 
 
+import java.io.BufferedInputStream;
+import java.io.EOFException;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -21,7 +24,7 @@ public class Main {
 
 
 
-    public static void main(String[] args)  {
+    public static void main(String[] args) throws EOFException {
 
         CompagnyController compagnyController = new CompagnyController();
 
@@ -74,18 +77,21 @@ public class Main {
 
             try {
 
-                if (file.exists()){
+                BufferedInputStream inputStream;
+                if (file.exists() ){
                     controller.sign(user1);
                     controller.printProfil(user1);
                     controller.sign(user2);
                     controller.printProfil(user2);
                     compagnyController.creerVol(v);
+                    compagnyController.getUserByVol(v, vol.getId());
                 }
 
 
 
-            } catch (IOException | InvalidInsertion e) {
-                throw new RuntimeException(e);
+            } catch (IOException | InvalidInsertion | UserNotFoundException e
+        ) {
+                throw new EOFException();
             }
 
     }
