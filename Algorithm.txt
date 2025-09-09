@@ -1,0 +1,13 @@
+# creation d'une reservation
+
+algorithm creation_de_reservation(reservation : Reservation, compagny_name : String) : void
+debut
+    si le fichier des utilisateurs existe pas alors :
+        creation de nouveau fichier
+    si le fichier des reservations n'existe pas alors :
+        creation du nouveau fichier de reservation
+
+    Sinon :
+        - Enter dans le fichier des utilisateurs.
+        – Recuperer un object dans le fichier des utilisateurs
+        si object qu'on a recupere est un utilisateur

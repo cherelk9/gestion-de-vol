@@ -35,4 +35,27 @@ vol (
 
 relation user 1.1 --(is of)-- 1.n compagny
 
+compagny (
+    ...
 
+)
+
+
+relation reservation user 1.1 --(do)--1.1 reservation
+
+reservation (
+    ...
+    user_id : string
+    compagny_id : string
+    foreign key compagny_id, user_id reference compagny(id), User(id);
+)
+
+
+relation compagny 1.n --(have)-- 1.1 reservation
+
+
+Relation paiement 1.1 —(have done)— 1.1 user
+
+paiement (
+)
+relation paiement 1.1 —(is for)-- reservation

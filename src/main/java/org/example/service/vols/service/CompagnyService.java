@@ -1,19 +1,13 @@
 package org.example.service.vols.service;
 
-import org.example.service.utilisateur.controller.UserController;
-import org.example.service.utilisateur.exception.UserNotFoundException;
-import org.example.service.utilisateur.model.Gender;
+import org.example.service.reservation.model.Reservation;
 import org.example.service.utilisateur.model.User;
-import org.example.service.utilisateur.utils.UserUtils;
 import org.example.service.vols.dto.VolDto;
-import org.example.service.vols.model.TypeOfVol;
 import org.example.service.vols.model.Vol;
 import org.example.service.vols.repositories.CompagnyRepository;
 import org.example.service.vols.utils.CompagnyUtils;
 
 import java.io.*;
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 
@@ -52,7 +46,7 @@ public class CompagnyService implements CompagnyRepository {
 
 
     @Override
-    public void getUserByVol(String userId, Vol vol) throws IOException, UserNotFoundException {
+    public void getUserByVol(String userId, Vol vol) throws IOException {
 
         if (!file.exists())
             throw new FileNotFoundException(new CompagnyUtils().FILE_COMPAGNY_NOT_FOUND);
@@ -154,6 +148,37 @@ public class CompagnyService implements CompagnyRepository {
         }
     }
 
+    @Override
+    public void getAllReservation(File fileReservation) throws IOException {
+        if (!fileReservation.exists())
+        {
+            boolean newFile = file.createNewFile();
+        }
+
+        try (var ob = new ObjectInputStream(
+                new BufferedInputStream( new FileInputStream(fileReservation))
+        )) {
+            Object object = ob.readObject();
+            if (object instanceof List<?> newObjectList) {
+
+                @SuppressWarnings("unchecked")
+                        List<Reservation> reservations = (List<Reservation>) newObjectList;
+
+                if (reservations.isEmpty())
+                    System.out.println("liste de reservation est null !");
+
+                reservations.forEach(r->System.out.println(
+                        "\n id of compagny :" +r.getCompagnyId()+
+                                "\n number of reservation :" +r.getNumberOfReservation()+
+                                "\n type of reservation : " +r.getTypeOfReservation()
+                ));
+            }
+
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     private User findUserByVol(Vol vol, String userId) throws IOException {
         if (!file.exists())
@@ -168,6 +193,9 @@ public class CompagnyService implements CompagnyRepository {
             {
                 @SuppressWarnings("unchecked")
                 List<User> users = (List<User>) newUser;
+
+                if (users.isEmpty())
+                    return null;
 
                 return (User) users.stream()
                         .filter(p->p.getId().equals(userId) && users.contains(vol.getId()));

@@ -2,11 +2,23 @@ package org.example.service.vols.model;
 
 import org.example.service.utilisateur.model.User;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+
+/**
+ * compagny (
+ *     ...
+ * )
+
+ * */
+
 public class Compagnie implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     private  String id;
     private  String compagnieName;

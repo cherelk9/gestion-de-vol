@@ -1,5 +1,7 @@
 package org.example.service.utilisateur.service;
 
+import org.example.service.reservation.model.Reservation;
+import org.example.service.reservation.utils.ReservationUtils;
 import org.example.service.utilisateur.model.User;
 import org.example.service.utilisateur.repository.UserRepository;
 import org.example.service.utilisateur.utils.UserUtils;
@@ -11,6 +13,7 @@ import java.util.List;
 public class UserService implements UserRepository {
 
     private final File file = new File(new UserUtils().MY_FILE);
+    private final File fileReservation = new File(new ReservationUtils().RESERVATION_FILE);
 
     private  void addUser(User user) throws IOException {
         if (!file.exists())
@@ -28,6 +31,9 @@ public class UserService implements UserRepository {
                     user.getEmail(),
                     user.getPhone(),
                     user.getGender(),
+                    user.getReservationId(),
+                    user.getnReservation(),
+                    user.getTypeOfReservation(),
                     user.getVolId(),
                     user.getCompagnyId()
             ));
@@ -118,6 +124,54 @@ public class UserService implements UserRepository {
                 return null;
             return u;
         });
+    }
+
+    @Override
+    public void createReservation(String compagnyId, Reservation reservation, User user) throws IOException {
+
+        if (!file.exists()) {
+            boolean newFile = file.createNewFile();
+        }
+
+        if (!fileReservation.exists()) {
+            boolean newFile = fileReservation.createNewFile();
+        }
+
+
+        var obj = new ObjectOutputStream(
+                new BufferedOutputStream( new FileOutputStream(file)) // enregistrement des valeurs dans le fichier
+        );
+        obj.writeObject(new User(
+                user.getId(),
+                user.getName(),
+                user.getSurname(),
+                user.getAge(),
+                user.getEmail(),
+                user.getPhone(),
+                user.getGender(),
+                user.getReservationId(),
+                user.getnReservation(),
+                user.getTypeOfReservation(),
+                user.getVolId(),
+                user.getCompagnyId()
+
+        )); //enregistrement de fichier user
+        System.out.println("user "+user.getName()+" reservation update successfully ");
+
+
+
+        var objReservation = new ObjectOutputStream(
+                new BufferedOutputStream( new FileOutputStream(fileReservation))
+        );
+        objReservation.writeObject(new Reservation(
+                reservation.getId(),
+                reservation.getCompagnyId(),
+                reservation.getNumberOfReservation(),
+                reservation.getTypeOfReservation()
+        ));
+        System.out.println("reservation " +reservation.getNumberOfReservation()+ " as successfully created and update !");
+
+
     }
 
 

@@ -1,5 +1,8 @@
 package org.example.service.utilisateur.model;
 
+import org.example.service.reservation.model.Reservation;
+import org.example.service.reservation.model.TypeOfReservation;
+import org.example.service.utilisateur.dto.UserDto;
 import org.example.service.utilisateur.utils.UserUtils;
 import org.example.service.vols.model.Compagnie;
 import org.example.service.vols.model.Vol;
@@ -22,8 +25,11 @@ public class User implements Serializable {
     private final String phone;
     private final Gender gender;
     private final int age;
+    private  String reservationId;
+    private int nReservation;
+    private TypeOfReservation typeOfReservation;
 
-    private final String volId; // foreign key of vol
+    private String volId; // foreign key of vol
     private final String compagnyId;
 
 
@@ -36,6 +42,9 @@ public class User implements Serializable {
             String email,
             String phone,
             Gender gender,
+            String reservationId,
+            int nReservation,
+            TypeOfReservation tReservation,
             String volId,
             String compagnyId) {
 
@@ -46,9 +55,13 @@ public class User implements Serializable {
         this.phone = phone;
         this.gender = gender;
         this.age = age;
+        this.reservationId = reservationId;
+        this.nReservation = nReservation;
+        this.typeOfReservation = tReservation;
         this.volId = volId;
         this.compagnyId = compagnyId;
     }
+
 
     public String getId() {return id;}
     public Gender getGender() {return gender;}
@@ -59,6 +72,14 @@ public class User implements Serializable {
     public int getAge() {return age;}
     public String getVolId() {return volId;}
     public String getCompagnyId() {return compagnyId;}
+    public String getReservationId() {return reservationId;}
+    public int getnReservation() {return nReservation;}
+    public TypeOfReservation getTypeOfReservation() {return typeOfReservation;}
+
+    public void setnReservation(int nReservation) {this.nReservation = nReservation;}
+    public void setTypeOfReservation(TypeOfReservation typeOfReservation) {this.typeOfReservation = typeOfReservation;}
+    public void setReservationId(String reservationId) {this.reservationId = reservationId;}
+    public void setVolId(String volId) {this.volId = volId;}
 
     public User createUser(
             String id,
@@ -68,6 +89,9 @@ public class User implements Serializable {
             String email,
             String phone,
             Gender gender,
+            String reservationId,
+            int nReservation,
+            TypeOfReservation typeOfReservation,
             String volId,
             String compagnyId
     ) throws IOException {
@@ -87,6 +111,9 @@ public class User implements Serializable {
                             email,
                             phone,
                             gender,
+                            reservationId,
+                            nReservation,
+                            typeOfReservation,
                             volId,
                             compagnyId
                     )
@@ -95,10 +122,34 @@ public class User implements Serializable {
         return null;
     }
 
+    /*
+    *      int age,
+            Gender gender,
+            String phone,
+            String email,
+            String surname,
+            String name,
+            String id
+    * */
+
+    public UserDto createUserDto(User user) {
+        return new UserDto(
+                user.getAge(),
+                user.getGender(),
+                user.getPhone(),
+                user.getEmail(),
+                user.getSurname(),
+                user.getName(),
+                user.getId()
+        );
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "compagnyId='" + new Compagnie().getId() + '\'' +
+                "numero de reservation "+ new Reservation().getNumberOfReservation()+ '\''+
+                "type of reservation " + new Reservation().getTypeOfReservation()+'\''+
                 ", volId='" + new Vol().getId() + '\'' +
                 ", age=" + age +
                 ", gender=" + gender +

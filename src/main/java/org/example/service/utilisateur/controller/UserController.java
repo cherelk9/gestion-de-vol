@@ -1,5 +1,6 @@
 package org.example.service.utilisateur.controller;
 
+import org.example.service.reservation.model.Reservation;
 import org.example.service.utilisateur.exception.InvalidInsertion;
 import org.example.service.utilisateur.model.User;
 import org.example.service.utilisateur.service.UserService;
@@ -18,6 +19,7 @@ public class UserController {
     private static final UserUtils utils = new UserUtils();
 
     private static final File file = new File(utils.MY_FILE);
+
 
     private final UserService userService = new UserService() ;
 
@@ -72,8 +74,15 @@ public class UserController {
                 "\nsurname :" +newUser.getSurname()+
                 "\nphone :" +newUser.getPhone()+
                 "\nemail :" +newUser.getEmail()+
-                "\ngender :" +user.getGender()
+                "\ngender :" +user.getGender() +
+                        "\ntype of reservation :" +newUser.getTypeOfReservation()+
+                        "\nnumero de reservation :" +newUser.getnReservation()+
+                        "\ncompagny name :" +newUser.getCompagnyId()
         );
+    }
+
+    public void creatReservation(String compagny, Reservation reservation, User user) throws IOException {
+        userService.createReservation(compagny, reservation, user);
     }
 }
 

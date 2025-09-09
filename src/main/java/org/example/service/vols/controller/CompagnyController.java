@@ -1,6 +1,6 @@
 package org.example.service.vols.controller;
 
-import org.example.service.utilisateur.dto.UserDto;
+
 import org.example.service.utilisateur.exception.UserNotFoundException;
 import org.example.service.utilisateur.model.User;
 import org.example.service.vols.dto.VolDto;
@@ -23,7 +23,7 @@ public class CompagnyController {
     /**
      * Initialiser un vol,
      * ajouter les clients dont l'id correspond au numero vol
-     * donner une heure, donner un jour, donner point d'arriver, donner nombre de places;
+     * donner une heure, donner un jour, donner point d'arriver, donner nombre de places ;
      * <p>
      *     private String id ;
      *     private int volNumber ;
@@ -43,7 +43,7 @@ public class CompagnyController {
         )){
 
             /*
-            * creer une bifonction qui prend en parametre un utilisateur et un vol et retourn un record class
+            * créer une bi fonction qui prend en parameter un utilisateur et un vol et return un record class
             *
             * */
 
@@ -67,6 +67,9 @@ public class CompagnyController {
                                     y.getEmail(),
                                     y.getPhone(),
                                     y.getGender(),
+                                    y.getReservationId(),
+                                    y.getnReservation(),
+                                    y.getTypeOfReservation(),
                                     p.getId(),
                                     new Compagnie().getId()
                             )
@@ -79,6 +82,10 @@ public class CompagnyController {
             System.out.println(" le vol numero : " +vol.getVolNumber()+ " a ete programme avec success !");
         }
 
+    }
+
+    public void getAllReservation(File file1) throws IOException {
+        compagnyService.getAllReservation(file1);
     }
 
     public void getUserByVol(VolDto vol, String userId) throws IOException, UserNotFoundException {
